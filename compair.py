@@ -24,6 +24,8 @@ path = "./data/test1"
 
 def vectorize(doc):
             doc = [word for word in doc if word in modelw2v.wv.vocab]
+            if len(doc) == 0:
+                return None
             return np.mean(modelw2v.wv.__getitem__(doc), axis=0)
 def _cosine_sim(vecA, vecB):
         """Find the cosine similarity distance between two vectors."""
@@ -66,6 +68,9 @@ def w2vcp(sent1, sent2):
     vec11 = vectorize(sent11)
     #print(vec11)
     vec21 = vectorize(sent21)
+
+    if vec11 is None or vec21 is None:
+        return 0.0
     similar = _cosine_sim(vec11,vec21)
     return similar
 
@@ -73,6 +78,8 @@ def w2vcp(sent1, sent2):
 def compair(sent1, sent2):
     sent1 = preprocess(sent1)
     sent2 = preprocess(sent2)
+    if sent1.strip() == '' or sent2.strip() == '':
+        return 0.0
     a = ldacp(sent1, sent2)
     b = w2vcp(sent1, sent2)
     return (a+b)/2

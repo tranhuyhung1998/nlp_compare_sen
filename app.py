@@ -23,7 +23,7 @@ def compare_news():
         score = 5 * compair(sen1, sen2)
     else:
         score = compare(sen1, sen2)
-    print(score)
+    # print(score)
     return jsonify({'similarity': str(score)})
 
 
